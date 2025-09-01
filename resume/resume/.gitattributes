@@ -1,2 +1,15 @@
-/mvnw text eol=lf
+# Set default behavior, `text=auto`
+* text=auto
+
+# Handle specific files to prevent issues with executable flags
+*.sh text eol=lf
+*.bat text eol=crlf
 *.cmd text eol=crlf
+mvnw text eol=lf
+mvnw.cmd text eol=crlf
+
+# Treat all image files as binary to prevent corruption
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
