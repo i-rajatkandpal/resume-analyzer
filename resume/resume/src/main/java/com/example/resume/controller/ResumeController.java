@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.example.resume.dto.ResumeScoreResponse;
+import com.example.resume.service.ResumeScoringService;
+
 
 import java.io.File;
 import java.util.UUID;
@@ -79,4 +82,15 @@ public class ResumeController {
         ResumeJson parsed = parsingService.parse(resumeId);
         return ResponseEntity.ok(parsed);
     }
+
+    @Autowired
+    private ResumeScoringService scoringService;
+
+    @PostMapping("/score/{resumeId}")
+    public ResponseEntity<ResumeScoreResponse> scoreResume(@PathVariable String resumeId) {
+        ResumeJson parsed = parsingService.parse(resumeId);
+        ResumeScoreResponse scoreResponse = scoringService.scoreResume(parsed);
+        return ResponseEntity.ok(scoreResponse);
+    }
+
 }

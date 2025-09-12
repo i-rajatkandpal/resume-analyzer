@@ -39,13 +39,10 @@ public class ResumeParsingServiceImpl implements ResumeParsingService {
             ResumeJson resumeJson = new ResumeJson();
             resumeJson.setSummary(text.substring(0, Math.min(200, text.length())));
 
-            // ✅ detect skills
             resumeJson.setSkills(skillDetectionService.detectSkills(text));
 
-            // ✅ improved education extraction (section-based)
             resumeJson.setEducation(extractEducation(text));
 
-            // still using keyword-based for experiences for now
             resumeJson.setExperiences(extractByKeyword(text, new String[]{
                     "Experience", "Intern", "Engineer", "Developer", "Manager", "Analyst"
             }));
@@ -73,7 +70,7 @@ public class ResumeParsingServiceImpl implements ResumeParsingService {
         return results;
     }
 
-    // ✅ Section-based extractor for Education
+    //  Section-based extractor for Education
     private List<String> extractEducation(String text) {
         List<String> education = new ArrayList<>();
         String[] lines = text.split("\\r?\\n");
