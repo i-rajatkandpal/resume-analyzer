@@ -1,8 +1,7 @@
 package com.example.resume.controller;
 
-import com.example.resume.dto.ResumeAnalysisResponse;
-import com.example.resume.dto.ResumeUploadResponse;
-import com.example.resume.dto.ResumeJson;
+import com.example.resume.dto.*;
+import com.example.resume.service.AiEnhancementService;
 import com.example.resume.service.ResumeParsingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import com.example.resume.dto.ResumeScoreResponse;
 import com.example.resume.service.ResumeScoringService;
 
 
@@ -92,5 +90,15 @@ public class ResumeController {
         ResumeScoreResponse scoreResponse = scoringService.scoreResume(parsed);
         return ResponseEntity.ok(scoreResponse);
     }
+    @Autowired
+    private AiEnhancementService aiEnhancementService;
+
+    @PostMapping("/ai-enhance/{resumeId}")
+    public ResponseEntity<ResumeAiSuggestionsResponse> enhanceResume(@PathVariable String resumeId) {
+        ResumeJson parsed = parsingService.parse(resumeId);
+        ResumeAiSuggestionsResponse suggestions = aiEnhancementService.enhanceResume(parsed);
+        return ResponseEntity.ok(suggestions);
+    }
+
 
 }
